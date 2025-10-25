@@ -113,7 +113,7 @@ public class Constants {
         public static final double gearRatio = 4 / 1; // ASK
         public static final Current supplyLimit = Units.Amps.of(40); // ASK
         public static final Current stallLimit = Units.Amps.of(50); // ASK
-        public static final double stallCurrent = 37; // ASK
+        public static final double stallCurrent = 35; // ASK
         public static final IdleMode idleMode = IdleMode.kBrake;
         public static final boolean isInverted = false;
         public static final Angle offset = Units.Rotation.of(0);
@@ -139,7 +139,7 @@ public class Constants {
         public static final AngularVelocity mm_error = Units.RPM.of(0);
 
         public enum AlgaeRollerModes {
-            IDLE(idleSpeed, 0.0), INTAKE(intakeSpeed, 0.7), FEED(feedSpeed, 0.2), OUTTAKE(outtakeSpeed, -0.4);
+            IDLE(idleSpeed, 0.0), INTAKE(intakeSpeed, 0.5), FEED(feedSpeed, 0.2), OUTTAKE(outtakeSpeed, -0.5);
 
             public AngularVelocity speed;
             public double output;
@@ -160,27 +160,27 @@ public class Constants {
 
         public static final boolean attached = true;
         public static final int id = 15;
-        public static final double gearRatio = 1 / 1;
-        public static final Current supplyLimit = Units.Amps.of(40);
+        public static final double gearRatio = 36 / 1;
+        public static final Current supplyLimit = Units.Amps.of(60);
         public static final Current stallLimit = Units.Amps.of(80);
         public static final IdleMode idleMode = IdleMode.kBrake;
-        public static final boolean isInverted = true;
+        public static final boolean isInverted = false;
         public static final Angle offset = Units.Rotation.of(0);
         public static final FeedbackSensor sensorType = FeedbackSensor.kAlternateOrExternalEncoder;
         public static final double maxForwardOutput = 1;
-        public static final double maxReverseOutput = -0.1;
+        public static final double maxReverseOutput = -0.3;
 
-        public static final double s = 0.3; // 0.15 holds arm at 90 degree position,
-        // when gravity's pull is strongest
+        public static final double s = 0.05; // 0.15 holds arm at 90 degree position,
+        // // when gravity's pull is strongest
 
-        public static final double p = 2;
-        public static final double i = 0.00;
-        public static final double d = 1.7;
+        public static final double p = 0.05;
+        public static final double i = 0.02;
+        public static final double d = 0;
         public static final double maxIAccum = 0.005;
 
-        public static final Angle stowAngle = Units.Rotations.of(-2);
-        public static final Angle feedAngle = Units.Rotations.of(-8);
-        public static final Angle processorAngle = Units.Rotations.of(-6);
+        public static final Angle stowAngle = Units.Rotations.of(-11.904754638671875);
+        public static final Angle feedAngle = Units.Rotations.of(-64);
+        public static final Angle processorAngle = Units.Rotations.of(-50);
 
         public static final Angle error = Units.Rotations.of(0.3);
         public static final Angle tightError = Units.Rotations.of(0.1);
@@ -201,7 +201,7 @@ public class Constants {
     public static class AutonConstants {
         // The PID values from last year
         public static final PIDConstants translationPID = new PIDConstants(1.3, 0, 0.5);
-        public static final PIDConstants rotationPID = new PIDConstants(2, 0, .0);
+        public static final PIDConstants rotationPID = new PIDConstants(0, 0, .0);
 
         // TODO: Playing with these. Need to clean up
         public static final double PATH_THETA_kP = 5;

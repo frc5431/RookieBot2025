@@ -110,20 +110,19 @@ public class AlgaePivot extends REVMechanism {
     }
 
     public void runEnum(AlgaePivotPositions algaePivotPositions) {
+        this.mode = algaePivotPositions;
         setMotorPosition(algaePivotPositions.position);
     }
 
     public Command runAlgaePivotCommand(AlgaePivotPositions AlgaePivotmode) {
-        return new InstantCommand(() -> this.runEnum(AlgaePivotmode), this)
-                .withName("AlgaePivot.runEnum");
+        return new RunCommand(() -> this.runEnum(AlgaePivotmode), this)
+                .withName("AlgaePivot.runEnum").withTimeout(1);
     }
 
     public Command run(double speed) {
         return new RunCommand(() -> motor.set(speed),
                 this).withName("AlgaeRollers.run");
     }
-
-    
 
     public double getMotorPosition() {
         if (attached) {

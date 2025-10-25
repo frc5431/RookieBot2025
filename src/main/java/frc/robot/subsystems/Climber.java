@@ -9,7 +9,6 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ClimberConstants.ClimberPositions;
@@ -55,7 +54,7 @@ public class Climber extends REVMechanism {
         this.state = ClimberStates.STOWED;
         config.applySparkConfig(motor);
 
-        Logger.recordOutput("ClimberMode", getMode());
+        Logger.recordOutput("Climber/Mode", getMode());
         Logger.recordOutput("Climber/State", getState());
         Logger.recordOutput("Climber/Velocity", getMotorVelocity());
         Logger.recordOutput("Climber/Voltage", getMotorVoltage());
@@ -68,6 +67,7 @@ public class Climber extends REVMechanism {
     @Override
     public void periodic() {
         SmartDashboard.putString("Climber Mode", this.getMode().toString());
+
         SmartDashboard.putNumber("Climber Position", this.getMotorPosition());
 
         SmartDashboard.putNumber("Climber Output", this.getMotorOutput());

@@ -21,18 +21,85 @@
             }
           },
           {
-            "title": "CoralRollers Mode",
+            "title": "Algae Rollers",
             "x": 768.0,
-            "y": 192.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
+            "y": 0.0,
+            "width": 256.0,
+            "height": 448.0,
+            "type": "List Layout",
             "properties": {
-              "topic": "/SmartDashboard/CoralRollers Mode",
-              "period": 0.06,
-              "data_type": "string",
-              "show_submit_button": false
-            }
+              "label_position": "TOP"
+            },
+            "children": [
+              {
+                "title": "Algae Rollers Mode",
+                "x": 896.0,
+                "y": 64.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/SmartDashboard/Algae Rollers Mode",
+                  "period": 0.06,
+                  "data_type": "string",
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "Algae Rollers Velocity",
+                "x": 896.0,
+                "y": 128.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Number Bar",
+                "properties": {
+                  "topic": "/SmartDashboard/Algae Rollers Velocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "min_value": -1.0,
+                  "max_value": 1.0,
+                  "divisions": 5,
+                  "inverted": false,
+                  "orientation": "horizontal"
+                }
+              },
+              {
+                "title": "Algae Rollers Setpoint",
+                "x": 896.0,
+                "y": 192.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Number Bar",
+                "properties": {
+                  "topic": "/SmartDashboard/Algae Rollers Setpoint",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "min_value": -1.0,
+                  "max_value": 1.0,
+                  "divisions": 5,
+                  "inverted": false,
+                  "orientation": "horizontal"
+                }
+              },
+              {
+                "title": "Algae Rollers Output",
+                "x": 960.0,
+                "y": 320.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Number Bar",
+                "properties": {
+                  "topic": "/SmartDashboard/Algae Rollers Output",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "min_value": -1.0,
+                  "max_value": 1.0,
+                  "divisions": 5,
+                  "inverted": false,
+                  "orientation": "horizontal"
+                }
+              }
+            ]
           }
         ]
       }

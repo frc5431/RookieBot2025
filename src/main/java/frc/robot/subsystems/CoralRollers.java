@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.CoralRollersConstants;
 import frc.robot.Constants.CoralRollersConstants.CoralRollerModes;
 import frc.robot.Constants.CoralRollersConstants.CoralRollerStates;
-import frc.robot.Constants.CoralRollersConstants;
 import frc.team5431.titan.core.subsystem.REVMechanism;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,14 +51,14 @@ public class CoralRollers extends REVMechanism {
         this.state = CoralRollerStates.IDLE;
         config.applySparkConfig(motor);
 
-        Logger.recordOutput("Feeder/Rollers/Mode", getMode());
-        Logger.recordOutput("Feeder/Rollers/State", getState());
-        Logger.recordOutput("Feeder/Rollers/Setpoint", getMode().speed.in(RPM));
-        Logger.recordOutput("Feeder/Rollers/Veloci ty", getState());
-        Logger.recordOutput("Feeder/Rollers/Velocity", getMotorVelocity());
-        Logger.recordOutput("Feeder/Rollers/Voltage", getMotorVoltage());
-        Logger.recordOutput("Feeder/Rollers/Current", getMotorCurrent());
-        Logger.recordOutput("Feeder/Rollers/Output", getMotorOutput());
+        Logger.recordOutput("CoralRollers/Rollers/Mode", getMode());
+        Logger.recordOutput("CoralRollers/Rollers/State", getState());
+        Logger.recordOutput("CoralRollers/Rollers/Setpoint", getMode().speed.in(RPM));
+        Logger.recordOutput("CoralRollers/Rollers/Velocity", getState());
+        Logger.recordOutput("CoralRollers/Rollers/Velocity", getMotorVelocity());
+        Logger.recordOutput("CoralRollers/Rollers/Voltage", getMotorVoltage());
+        Logger.recordOutput("CoralRollers/Rollers/Current", getMotorCurrent());
+        Logger.recordOutput("CoralRollers/Rollers/Output", getMotorOutput());
     }
 
     @Override

@@ -124,4 +124,13 @@ public class AlgaeRollers extends REVMechanism {
         }
         return this.config;
     }
+
+    public boolean hasAlgae() {
+        // return motor.getForwardLimitSwitch().isPressed() ||
+        return motor.getOutputCurrent() >= AlgaeRollersConstants.stallCurrent;
+    }
+
+    public boolean isStalling(double tolerance) {
+        return Math.abs(motor.getOutputCurrent() - AlgaeRollersConstants.stallLimit.baseUnitMagnitude()) <= tolerance;
+    }
 }

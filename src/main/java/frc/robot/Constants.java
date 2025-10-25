@@ -14,6 +14,10 @@ import edu.wpi.first.units.measure.Current;
 public class Constants {
     public static class ClimberConstants {
 
+        public enum ClimberStates {
+            STOWED, CLIMB, ALIGN,
+        }
+
         public static final boolean attached = false;
         public static final int id = 16;
         public static final double gearRatio = 135 / 1; // ASK
@@ -33,9 +37,27 @@ public class Constants {
 
         public static final MAXMotionPositionMode mm_positionMode = MAXMotionPositionMode.kMAXMotionTrapezoidal;
 
+        public static final double stow = 0; // TODO
+        public static final double in = 0.75;
+        public static final double out = -0.75;
+        public static final double error = 0;
+
+        public enum ClimberPositions {
+            STOW(stow), IN(in), OUT(out);
+
+            public double speed;
+
+            ClimberPositions(double speed) {
+                this.speed = speed;
+            }
+        }
     }
 
     public static class CoralRollersConstants {
+
+        public enum CoralRollerStates {
+            IDLE, STUCK, OUTTAKE,
+        }
 
         public static final boolean attached = true;
         public static final int id = 19;
@@ -43,22 +65,48 @@ public class Constants {
         public static final Current supplyLimit = Units.Amps.of(40); // ASK
         public static final Current stallLimit = Units.Amps.of(50); // ASK
         public static final double stallCurrent = 37; // ASK
-        public static final IdleMode idleMode = IdleMode.kBrake;
+        public static final IdleMode idleMode = IdleMode.kCoast;
         public static final boolean isInverted = false;
         public static final Angle offset = Units.Rotation.of(0);
         public static final FeedbackSensor sensorType = FeedbackSensor.kPrimaryEncoder;
         public static final double maxForwardOutput = 1;
         public static final double maxReverseOutput = -1;
-        public static final double p = 1; // TUNE
-        public static final double i = 0.01; // TUNE
-        public static final double d = 0.3; // TUNE
-        public static final double maxIAccum = 0.2; // TUNE
+        public static final boolean useRPM = false;
 
         public static final MAXMotionPositionMode mm_positionMode = MAXMotionPositionMode.kMAXMotionTrapezoidal;
+
+        public static final double p = 0.00065;
+        public static final double i = 0.0008;
+        public static final double d = 0.00003;
+        public static final double maxIAccum = 2 * i;
+
+        public static final AngularVelocity outtakeSpeed = Units.RPM.of(0);
+        public static final AngularVelocity idleSpeed = Units.RPM.of(0);
+        public static final AngularVelocity error = Units.RPM.of(0);
+
+        public static final AngularVelocity mm_maxAccel = Units.RPM.of(0);
+        public static final AngularVelocity mm_velocity = Units.RPM.of(0);
+        public static final AngularVelocity mm_error = Units.RPM.of(0);
+
+        public enum CoralRollerModes {
+            IDLE(idleSpeed, 0.0), OUTTAKE(outtakeSpeed, -0.7);
+
+            public AngularVelocity speed;
+            public double output;
+
+            CoralRollerModes(AngularVelocity speed, double output) {
+                this.speed = speed;
+                this.output = output;
+            }
+        }
 
     }
 
     public static class AlgaeRollersConstants {
+
+        public enum AlgaeRollerStates {
+            IDLE, INTAKING, FEEDING, OUTTAKING, STUCK,
+        }
 
         public static final boolean attached = true;
         public static final int id = 5;
@@ -76,16 +124,39 @@ public class Constants {
         public static final double i = 0.01; // TUNE
         public static final double d = 0.3; // TUNE
         public static final double maxIAccum = 0.2; // TUNE
+        public static final boolean useRPM = false;
 
         public static final MAXMotionPositionMode mm_positionMode = MAXMotionPositionMode.kMAXMotionTrapezoidal;
 
+        public static final AngularVelocity intakeSpeed = Units.RPM.of(3000);
+        public static final AngularVelocity outtakeSpeed = Units.RPM.of(0);
+        public static final AngularVelocity feedSpeed = Units.RPM.of(0);
+        public static final AngularVelocity idleSpeed = Units.RPM.of(0);
+        public static final AngularVelocity error = Units.RPM.of(0);
+
+        public static final AngularVelocity mm_maxAccel = Units.RPM.of(0);
+        public static final AngularVelocity mm_velocity = Units.RPM.of(0);
+        public static final AngularVelocity mm_error = Units.RPM.of(0);
+
+        public enum AlgaeRollerModes {
+            IDLE(idleSpeed, 0.0), INTAKE(intakeSpeed, 0.7), FEED(feedSpeed, 0.2), OUTTAKE(outtakeSpeed, -0.4);
+
+            public AngularVelocity speed;
+            public double output;
+
+            AlgaeRollerModes(AngularVelocity speed, double output) {
+                this.speed = speed;
+                this.output = output;
+            }
+
+        }
     }
 
     public static class AlgaePivotConstants {
 
-        // public enum ManipJointStates {
-        // STOWED, FEED, HUMAN, L1, L2, L3, L4
-        // }
+        public enum AlgaePivotStates {
+            STOWED, FEED, PROCESSOR
+        }
 
         public static final boolean attached = true;
         public static final int id = 15;
@@ -99,7 +170,7 @@ public class Constants {
         public static final double maxForwardOutput = 1;
         public static final double maxReverseOutput = -0.1;
 
-        // public static final double s = 0.3; // 0.15 holds arm at 90 degree position,
+        public static final double s = 0.3; // 0.15 holds arm at 90 degree position,
         // when gravity's pull is strongest
 
         public static final double p = 2;
@@ -107,17 +178,15 @@ public class Constants {
         public static final double d = 1.7;
         public static final double maxIAccum = 0.005;
 
-        public static final Angle eject = Units.Rotation.of(-0.8);
-        public static final Angle stow = Units.Rotations.of(-2);
-
-        public static final Angle groundAlgae = Units.Rotations.of(-8);
+        public static final Angle stowAngle = Units.Rotations.of(-2);
+        public static final Angle feedAngle = Units.Rotations.of(-8);
         public static final Angle processorAngle = Units.Rotations.of(-6);
 
         public static final Angle error = Units.Rotations.of(0.3);
         public static final Angle tightError = Units.Rotations.of(0.1);
 
         public enum AlgaePivotPositions {
-            STOW(stow), EJECT(eject), GROUND_ALGEA(groundAlgae), PROCESSOR(processorAngle);
+            STOW(stowAngle), FEED(feedAngle), PROCESSOR(processorAngle);
 
             public Angle position;
 

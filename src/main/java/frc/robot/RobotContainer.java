@@ -28,6 +28,9 @@ import frc.robot.Constants.AlgaePivotConstants;
 import frc.robot.Constants.AlgaeRollersConstants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.CoralRollersConstants;
+import frc.robot.Constants.AlgaePivotConstants.AlgaePivotPositions;
+import frc.robot.Constants.AlgaeRollersConstants.AlgaeRollerModes;
+import frc.robot.Constants.CoralRollersConstants.CoralRollerModes;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaePivot;
 import frc.robot.subsystems.AlgaeRollers;
@@ -74,13 +77,15 @@ public class RobotContainer {
 
         public final Trigger coralRollersTrigger = operator.y();
 
-        public final Trigger AlgaeIntake = operator.x();
-        public final Trigger AlgaeOuttake = operator.b();
+        public final Trigger algaeIntake = operator.x();
+        public final Trigger algaeOuttake = operator.b();
 
-        public final Trigger AlgaePivotUp = operator.povUp();
-        public final Trigger AlgaePivotDown = operator.povDown();
-
-        // private final SendableChooser<Command> autoChooser;
+        public final Trigger algaePivotUp = operator.povUp();
+        public final Trigger algaePivotDown = operator.povDown();
+        public final Trigger algaePivotStow = operator.povLeft();
+        // public final Trigger algaePivotFeed = operator.povUp();
+        // public final Trigger algaePivotProcessor = operator.povDown();
+        private final SendableChooser<Command> autoChooser;
 
         public RobotContainer() {
                 // Path Planner reccomends that construction of their namedcommands happens
@@ -94,9 +99,9 @@ public class RobotContainer {
                 // One Controller
                 // configureSingleControls();
 
-                // autoChooser = AutoBuilder.buildAutoChooser();
+                autoChooser = AutoBuilder.buildAutoChooser();
 
-                // SmartDashboard.putData("Auto Chooser", autoChooser);
+                SmartDashboard.putData("Auto Chooser", autoChooser);
         }
 
         private void configureDriverControls() {
@@ -148,13 +153,23 @@ public class RobotContainer {
                 climberForward.whileTrue(new RunCommand(() -> climber.run(.2), climber));
                 climberBack.whileTrue(new RunCommand(() -> climber.run(-0.2), climber));
 
-                coralRollersTrigger.whileTrue(new RunCommand(() -> coralRollers.run(0.5), coralRollers));
+                coralRollersTrigger.whileTrue(
+                                coralRollers.runRollersCommand(CoralRollerModes.OUTTAKE)
+                                                .withName("Operator Coral Outtake"));
 
-                AlgaeOuttake.whileTrue(new RunCommand(() -> algaeRollers.run(0.7), algaeRollers));
-                AlgaeIntake.whileTrue(new RunCommand(() -> algaeRollers.run(-0.7), algaeRollers));
+                algaeOuttake.whileTrue(
+                                algaeRollers.runRollersCommand(AlgaeRollerModes.OUTTAKE)
+                                                .withName("Operator Algae Outtake"));
+                algaeIntake.whileTrue(algaeRollers.runRollersCommand(AlgaeRollerModes.INTAKE)
+                                .withName("Operator Algae Intake"));
 
-                AlgaePivotUp.whileTrue(new RunCommand(() -> algaePivot.run(0.2), algaePivot));
-                AlgaePivotDown.whileTrue(new RunCommand(() -> algaePivot.run(-0.2), algaePivot));
+                algaePivotUp.whileTrue(algaePivot.run(0.2));
+                algaePivotDown.whileTrue(algaePivot.run(-0.2));
+
+                // algaePivotFeed.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.FEED));
+                // algaePivotProcessor.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.PROCESSOR));
+                algaePivotStow.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.STOW)
+                                .withName("Operator Algae Pivot Stow"));
         }
 
         private void configureSingleControls() {
@@ -200,6 +215,27 @@ public class RobotContainer {
 
                 drivetrain.registerTelemetry(logger::telemeterize);
 
+                driver.rightBumper().whileTrue(new RunCommand(() -> climber.run(.2), climber));
+                driver.leftBumper().whileTrue(new RunCommand(() -> climber.run(-0.2), climber));
+
+                driver.y().whileTrue(
+                                coralRollers.runRollersCommand(CoralRollerModes.OUTTAKE)
+                                                .withName("Single Control Coral Outtake"));
+
+                driver.b().whileTrue(
+                                algaeRollers.runRollersCommand(AlgaeRollerModes.OUTTAKE)
+                                                .withName("Single Control Algae Outtake"));
+                driver.x().whileTrue(algaeRollers.runRollersCommand(AlgaeRollerModes.INTAKE)
+                                .withName("Single Control Algae Intake"));
+
+                driver.povUp().whileTrue(algaePivot.run(0.2));
+                driver.povDown().whileTrue(algaePivot.run(-0.2));
+
+                // algaePivotFeed.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.FEED));
+                // algaePivotProcessor.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.PROCESSOR));
+                algaePivotStow.onTrue(algaePivot.runAlgaePivotCommand(AlgaePivotPositions.STOW)
+                                .withName("Single Control Algae Pivot Stow"));
+
         }
 
         public void onInitialize() {
@@ -230,15 +266,12 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-                // return autoChooser.getSelected();
-                return new Command() {
-
-                };
+                return autoChooser.getSelected();
         }
 
-        // public void setCommandMappings() {
-        // NamedCommands.registerCommand("RunCoralRollers",
-        // new RunCommand(() -> coralRollers.run(.5), coralRollers).withTimeout(2));
-        // }
+        public void setCommandMappings() {
+                NamedCommands.registerCommand("RunCoralRollers",
+                                new RunCommand(() -> coralRollers.run(.5), coralRollers).withTimeout(2));
+        }
 
 }

@@ -109,6 +109,16 @@ public class AlgaeRollers extends REVMechanism {
                 .withName("AlgaeRollers.runEnum");
     }
 
+    public Command RunDefaultRollerCommand(boolean hasAlgae) {
+        return new RunCommand(() -> {
+            if (hasAlgae) {
+                this.run(0.1);
+            } else {
+                this.stop();
+            }
+        }, this);
+    }
+
     public void stop() {
         motor.set(0);
     }
@@ -127,7 +137,7 @@ public class AlgaeRollers extends REVMechanism {
 
     public boolean hasAlgae() {
         // return motor.getForwardLimitSwitch().isPressed() ||
-        return motor.getOutputCurrent() >= AlgaeRollersConstants.stallCurrent;
+        return motor.getOutputCurrent() >= (AlgaeRollersConstants.stallCurrent - 5);
     }
 
     public boolean isStalling(double tolerance) {

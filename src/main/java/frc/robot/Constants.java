@@ -110,9 +110,9 @@ public class Constants {
 
         public static final boolean attached = true;
         public static final int id = 5;
-        public static final double gearRatio = 4 / 1; // ASK
-        public static final Current supplyLimit = Units.Amps.of(40); // ASK
-        public static final Current stallLimit = Units.Amps.of(50); // ASK
+        public static final double gearRatio = 4 / 1; 
+        public static final Current supplyLimit = Units.Amps.of(40);
+        public static final Current stallLimit = Units.Amps.of(50); 
         public static final double stallCurrent = 35; // ASK
         public static final IdleMode idleMode = IdleMode.kBrake;
         public static final boolean isInverted = false;

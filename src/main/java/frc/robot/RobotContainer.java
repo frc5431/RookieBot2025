@@ -50,7 +50,7 @@ public class RobotContainer {
         /* Setting up bindings for necessary control of the swerve drive platform */
         private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
                         .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive
+                        .withDriveRequestType(DriveRequestType.Velocity); // Use open-loop control for drive
                                                                                  // motors
         private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
         private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -150,7 +150,6 @@ public class RobotContainer {
 
                 zeroDrivebase.onTrue(new InstantCommand(() -> drivetrain.resetGyro())
                                 .withName("Zero Drivebase"));
-
         }
 
         private void configureOperatorControls() {
@@ -250,14 +249,9 @@ public class RobotContainer {
                 algaePivot.runAlgaePivotCommand(AlgaePivotPositions.STOW);
                 coralRollers.setDefaultCommand(new RunCommand(() -> coralRollers.stop(), coralRollers));
 
-                // if (hasAlgae.getAsBoolean()) {
-                // algaeRollers.setDefaultCommand(algaeRollers.run(.05));
-                // } else {
-                // algaeRollers.setDefaultCommand(new RunCommand(() -> algaeRollers.stop(),
-                // algaeRollers));
-                // }
+                // algaeRollers.setDefaultCommand(algaeRollers.RunDefaultRollerCommand(hasAlgae.getAsBoolean()));
 
-                algaeRollers.setDefaultCommand(new RunCommand(() -> algaeRollers.stop(), algaeRollers));
+                algaeRollers.setDefaultCommand(new RunCommand(() -> algaeRollers.run(0.1), algaeRollers));
 
                 climber.setDefaultCommand(new RunCommand(() -> climber.stop(), climber));
                 algaeRollers.setDefaultCommand(new RunCommand(() -> algaeRollers.stop(), algaeRollers));
